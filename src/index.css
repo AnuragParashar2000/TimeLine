@@ -253,7 +253,12 @@ body {
 
 /* Landing Page Responsive Utilities */
 .landing-container {
-    min-height: 100vh;
+    height: 100vh;
+    /* Fixed height to match viewport */
+    overflow-y: auto;
+    /* Enable internal scrolling */
+    -webkit-overflow-scrolling: touch;
+    /* Smooth scroll on iOS */
     background: var(--bg-primary);
     color: var(--fg-primary);
     display: flex;
@@ -266,6 +271,8 @@ body {
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+    /* Don't shrink header */
 }
 
 .landing-main {
@@ -277,7 +284,7 @@ body {
     text-align: center;
     padding: 4rem 2rem;
     position: relative;
-    overflow: hidden;
+    /* Removed overflow: hidden so content isn't clipped */
 }
 
 .landing-hero-title {
