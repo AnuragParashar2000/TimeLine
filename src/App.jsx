@@ -175,9 +175,22 @@ const SchedulerDashboard = () => {
     return (
         <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
             <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
-                <div style={{ padding: '0.5rem 1rem', borderBottom: '1px solid var(--border)', background: 'var(--bg-primary)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                        <h1 style={{ margin: 0, fontSize: '1.25rem' }}>Timeline <span style={{ fontSize: '0.8rem', fontWeight: 400, color: 'var(--fg-secondary)' }}>for {user?.email}</span></h1>
+                <div style={{
+                    padding: '0.5rem 1rem',
+                    borderBottom: '1px solid var(--border)',
+                    background: 'var(--bg-primary)',
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    gap: '1rem',
+                    alignItems: 'center',
+                    justifyContent: 'space-between'
+                }}>
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <h1 style={{ margin: 0, fontSize: '1.25rem', lineHeight: 1.2 }}>Timeline</h1>
+                        <span style={{ fontSize: '0.8rem', fontWeight: 400, color: 'var(--fg-secondary)' }}>{user?.email}</span>
+                    </div>
+
+                    <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
                         <div style={{ display: 'flex', gap: '0.5rem' }}>
                             <button className="btn btn-ghost" onClick={handleExportData} title="Export">Backup</button>
                             <label className="btn btn-ghost" style={{ cursor: 'pointer' }} title="Import">
@@ -185,10 +198,7 @@ const SchedulerDashboard = () => {
                                 <input type="file" accept=".json" onChange={handleImportData} style={{ display: 'none' }} />
                             </label>
                         </div>
-                    </div>
-                    <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
                         <button className="btn btn-primary" onClick={() => handleAddSlot(null)}>+ New Slot</button>
-                        <button className="btn btn-ghost" onClick={logout} style={{ color: 'var(--danger)' }}>Logout</button>
                     </div>
                 </div>
 

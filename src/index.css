@@ -245,6 +245,8 @@ body {
     border-right: 1px solid var(--border);
     position: relative;
     min-width: 120px;
+    flex-shrink: 0;
+    /* Critical for horizontal scroll */
 }
 
 .day-column:last-child {

@@ -17,19 +17,48 @@ const CalendarGrid = ({ slots, onDeleteSlot, onEditSlot, onAddSlot }) => {
     };
 
     return (
-        <div className="calendar-container glass-panel">
-            <div className="calendar-header">
-                <div className="time-column-header"></div>
+        <div className="calendar-container glass-panel" style={{ overflow: 'auto', position: 'relative' }}>
+            {/* Headers Row (Sticky Top) */}
+            <div style={{ display: 'flex', position: 'sticky', top: 0, zIndex: 30, background: 'var(--bg-primary)' }}>
+                {/* Top-Left Corner (Sticky Left) */}
+                <div
+                    className="time-column-header"
+                    style={{
+                        position: 'sticky',
+                        left: 0,
+                        zIndex: 40,
+                        background: 'var(--bg-primary)',
+                        borderBottom: '1px solid var(--border)',
+                        borderRight: '1px solid var(--border)'
+                    }}
+                />
+
+                {/* Day Headers (Scrolls horizontally) */}
                 {weekDays.map((day) => (
-                    <div key={day.toString()} className="day-header">
+                    <div
+                        key={day.toString()}
+                        className="day-header"
+                        style={{ borderBottom: '1px solid var(--border)', background: 'var(--bg-primary)' }}
+                    >
                         <span className="day-name">{format(day, 'EEE')}</span>
                         <span className="day-date">{format(day, 'd')}</span>
                     </div>
                 ))}
             </div>
 
-            <div className="calendar-body">
-                <div className="time-sidebar">
+            {/* Body Row */}
+            <div style={{ display: 'flex' }}>
+                {/* Time Sidebar (Sticky Left) */}
+                <div
+                    className="time-sidebar"
+                    style={{
+                        position: 'sticky',
+                        left: 0,
+                        zIndex: 20,
+                        background: 'var(--bg-primary)',
+                        borderRight: '1px solid var(--border)'
+                    }}
+                >
                     {hours.map((hour) => (
                         <div key={hour} className="time-label">
                             <span>{format(new Date().setHours(hour, 0), 'ha')}</span>
@@ -37,7 +66,8 @@ const CalendarGrid = ({ slots, onDeleteSlot, onEditSlot, onAddSlot }) => {
                     ))}
                 </div>
 
-                <div className="grid-columns">
+                {/* Grid Columns */}
+                <div className="grid-columns" style={{ display: 'flex', flex: 1 }}>
                     {weekDays.map((day) => (
                         <DayColumn
                             key={day.toString()}
