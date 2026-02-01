@@ -36,18 +36,18 @@ const SlotModal = ({ isOpen, onClose, onSave, onDelete, initialData }) => {
                 });
             } else {
                 // New Slot
-                const todayStr = new Date().toISOString().split('T')[0];
-                const todayDay = getDay(new Date());
+                const todayDayIndex = getDay(new Date()); // 0 = Sun
+                const weekDaysFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
                 setFormData({
                     title: '',
-                    day: todayStr,
+                    day: weekDaysFull[todayDayIndex], // Default to today's name
                     startTime: '09:00',
                     endTime: '10:00',
                     duration: 1,
                     color: '#7c3aed',
                     description: '',
-                    selectedDays: [todayDay]
+                    selectedDays: [todayDayIndex]
                 });
                 setIsRecurringMode(true);
             }
@@ -96,7 +96,8 @@ const SlotModal = ({ isOpen, onClose, onSave, onDelete, initialData }) => {
 
     if (!isOpen) return null;
 
-    const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    // Use full names to match date-fns 'EEEE' format
+    const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
     return (
         <div className="modal-overlay">
@@ -145,13 +146,17 @@ const SlotModal = ({ isOpen, onClose, onSave, onDelete, initialData }) => {
                         </div>
                     ) : (
                         <div className="form-group">
-                            <label>Date</label>
-                            <input
-                                type="date"
+                            <label>Day</label>
+                            <select
                                 value={formData.day}
                                 onChange={e => setFormData({ ...formData, day: e.target.value })}
                                 style={{ width: '100%' }}
-                            />
+                            >
+                                <option value="" disabled>Select Day</option>
+                                {weekDays.map(d => (
+                                    <option key={d} value={d}>{d}</option>
+                                ))}
+                            </select>
                         </div>
                     )}
 

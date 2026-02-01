@@ -6,14 +6,12 @@ import TimeSlot from './TimeSlot';
 const hours = Array.from({ length: 24 }, (_, i) => i);
 
 const CalendarGrid = ({ slots, onDeleteSlot, onEditSlot, onAddSlot }) => {
-    const currentDate = new Date();
-    const weekStart = startOfWeek(currentDate, { weekStartsOn: 1 });
-    const weekDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
+    // Static week days for generic schedule
+    const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-    const handleCellClick = (day, hour) => {
-        const dateStr = format(day, 'yyyy-MM-dd');
+    const handleCellClick = (dayName, hour) => {
         const timeStr = `${hour.toString().padStart(2, '0')}:00`;
-        onAddSlot({ day: dateStr, startTime: timeStr });
+        onAddSlot({ day: dayName, startTime: timeStr });
     };
 
     return (
@@ -34,14 +32,13 @@ const CalendarGrid = ({ slots, onDeleteSlot, onEditSlot, onAddSlot }) => {
                 />
 
                 {/* Day Headers (Scrolls horizontally) */}
-                {weekDays.map((day) => (
+                {weekDays.map((dayName) => (
                     <div
-                        key={day.toString()}
+                        key={dayName}
                         className="day-header"
                         style={{ borderBottom: '1px solid var(--border)', background: 'var(--bg-primary)' }}
                     >
-                        <span className="day-name">{format(day, 'EEE')}</span>
-                        <span className="day-date">{format(day, 'd')}</span>
+                        <span className="day-name">{dayName}</span>
                     </div>
                 ))}
             </div>
@@ -68,12 +65,12 @@ const CalendarGrid = ({ slots, onDeleteSlot, onEditSlot, onAddSlot }) => {
 
                 {/* Grid Columns */}
                 <div className="grid-columns" style={{ display: 'flex', flex: 1 }}>
-                    {weekDays.map((day) => (
+                    {weekDays.map((dayName) => (
                         <DayColumn
-                            key={day.toString()}
-                            date={day}
+                            key={dayName}
+                            dayName={dayName}
                             hours={hours}
-                            slots={slots.filter(s => s.day === format(day, 'yyyy-MM-dd'))}
+                            slots={slots.filter(s => s.day === dayName)}
                             onCellClick={handleCellClick}
                             onEditSlot={onEditSlot}
                         />
@@ -84,19 +81,18 @@ const CalendarGrid = ({ slots, onDeleteSlot, onEditSlot, onAddSlot }) => {
     );
 };
 
-const DayColumn = ({ date, hours, slots, onCellClick, onEditSlot }) => {
-    const dayStr = format(date, 'yyyy-MM-dd');
+const DayColumn = ({ dayName, hours, slots, onCellClick, onEditSlot }) => {
     const { setNodeRef } = useDroppable({
-        id: dayStr,
+        id: dayName,
     });
 
     return (
         <div className="day-column" ref={setNodeRef}>
             {hours.map((hour) => (
                 <div
-                    key={`${dayStr}-${hour}`}
+                    key={`${dayName}-${hour}`}
                     className="grid-cell"
-                    onClick={() => onCellClick(date, hour)}
+                    onClick={() => onCellClick(dayName, hour)}
                     title={`Click to add slot at ${hour}:00`}
                 />
             ))}
