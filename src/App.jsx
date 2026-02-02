@@ -187,10 +187,7 @@ const SchedulerDashboard = () => {
                         description: data.description
                     };
                 }).filter(Boolean);
-                // newSlots = [...newSlots, ...generated];
-
-                // TEMPORARY FIX: Disable recurring logic complex mapping until verified.
-                // Just use the single slot logic which now saves a String Day Name.
+                newSlots = [...newSlots, ...generated];
             } else {
                 newSlots.push({ ...data, id: Date.now().toString() });
             }

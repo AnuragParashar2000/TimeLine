@@ -47,7 +47,7 @@ const SlotModal = ({ isOpen, onClose, onSave, onDelete, initialData }) => {
                     duration: 1,
                     color: '#7c3aed',
                     description: '',
-                    selectedDays: [todayDayIndex]
+                    selectedDays: [(todayDayIndex + 6) % 7]
                 });
                 setIsRecurringMode(true);
             }
